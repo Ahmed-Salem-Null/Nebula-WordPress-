@@ -1,0 +1,94 @@
+//.example {font-size: rem(14px);}
+@function rem($size){
+	$remSize: $size/16px; //This relies on the html font-size to be set to 16px
+	@return #{$remSize}rem;
+}
+
+//.example {color: brand(facebook);}
+//.example {color: brand(flickr, secondary);}
+//.example {color: brand(flickr, 2);}
+@function brands($name, $index: 1){@return brand($name, $index);}
+@function brand($name, $index: 1){
+	@if ( $index == 0 ){
+		$index: 1;
+	}
+
+	$index_names: (primary: 1, secondary: 2, tertiary: 3, quaternary: 4, quinary: 5, senary: 6, septenary: 7, octonary: 8, nonary: 9, denary: 10);
+	@if ( map-has-key($index_names, $index) ){
+		$index: map_get($index_names, $index);
+	}
+
+	$brand_colors: map-get($brands, $name); //Retrieve the colors from this specific brand
+	@if ( $index > length($brand_colors) ){
+		//@warn "#{$name} does not have a color in the index of #{$index}";
+		$index: 1;
+	}
+
+	//If this brand only has 1 color, return it.
+	@if ( length($brand_colors) == 1 ){
+		@return nth($brand_colors, 1); //Return the first (only) color in the list
+	}
+
+	@each $current_color in $brand_colors {
+		$i: index($brand_colors, $current_color);
+		//@warn "#{$current_color} is in the index of #{$i}";
+		@if ( $i == $index ){
+			@return $current_color;
+		}
+	}
+
+	@return #000;
+}
+
+//Simply return white or black based on the provided background color. This is much faster than the high-contrast-color() function, but may not be as accurate to appropriate contrast ratios.
+//.element {background: #123456; color: readable-color(#123456);}
+@function readable-color($bg){
+	$calculated-value: ((red($bg) * 299) + (green($bg) * 587) + (blue($bg) * 114) - 128000) * -1000; //Creates a number either greater than 255 or less than 0
+
+	//While rgb() automatically limits output values to 0-255 in most (all?) browsers, it is safer to check it manually here.
+	@if ( $calculated-value >= 255 ){
+		@return #fff;
+	}
+
+	@return #000;
+}
+
+//Return the color with the higher contrast ratio against the background.
+//.element {background: #123456; color: high-contrast-color(#123456, #e2e2e2, #444);}
+@function high-contrast-color($bg, $light: #fff, $dark: #000){
+	$lightContrast: contrast($bg, $light);
+	$darkContrast: contrast($bg, $dark);
+
+	@if ( $lightContrast > $darkContrast ){
+		@return $light;
+	}
+
+	@return $dark;
+}
+
+//.example {transition: right 0.5s easing(easeOutBack);}
+//.example {transition: right 0.5s easing(custom, "0.190, 1.000, 0.220, 1.000");}
+@function easing($ease: linear, $custom: ""){
+	@each $name, $values in $easings {
+		@if $ease == $name {
+			@return cubic-bezier(unquote(#{$values}) unquote(#{$custom}));
+		} @else {
+			//@warn "#{$ease} not found in the easings map.";
+		}
+	}
+}
+
+//Calculate the luminance for a color.
+@function luminance($color) {
+	@return php_luminance($php_color: $color); //Use the custom PHP function
+}
+
+//This determines the linear channel value for luminance calculation.
+@function linear_channel_value($value){
+	@return php_linear_channel($php_color_value: $value); //Use the custom PHP function
+}
+
+//Calculate the contrast ratio between two colors.
+@function contrast($back, $front) {
+	@return php_contrast($php_back: $back, $php_front: $front); //Use the custom PHP function
+}

@@ -1,0 +1,161 @@
+// ===========================
+// Forms
+// ===========================
+
+.nebula-form-group {margin-bottom: 30px;}
+
+fieldset {border: 0; margin: 0; padding: 0;}
+textarea {resize: vertical; max-width: 100%;}
+
+#form-messages {
+	.sending {color: $warning_color;}
+	.error {color: $danger_color;}
+	.success {color: $success_color;}
+}
+
+//Setting these as :where so they can be easily overwritten. May just completely remove them in the future...
+:where(input[type="checkbox"]){-webkit-appearance: checkbox;}
+:where(input[type="radio"]){-webkit-appearance: radio;}
+
+button {cursor: pointer;}
+
+#wp_search_submit {color: #292b2c !important;
+	&:hover,
+	&:focus {color: #000 !important;}
+}
+#searchsubmit {/* padding: 2px 5px !important; */ background: $primary_color; border: 0; transition: all 0.25s;
+	#bigheadingcon & {background: $secondary_color;}
+	&:hover,
+	&:focus {background: $secondary_color;}
+}
+
+#searchform {max-width: 500px;}
+
+div.nebula-button {margin-bottom: 10px;}
+
+//Form Styles
+h3.comment-reply-title {font-size: rem(12px);}
+.logged-in-as {margin: 0;}
+
+//Lighten placeholders and fade them on focus
+$placeholder_color: rgb(153 153 153 / 90%);
+$placeholder_color_focus: rgb(153 153 153 / 0%) !important;
+input,
+textarea {
+	&::-webkit-input-placeholder {font-weight: 300; color: $placeholder_color; transition: all 0.25s;}
+	&::-moz-placeholder {font-weight: 300; color: $placeholder_color; transition: all 0.25s;}
+
+	&:not(.nofade):focus {
+		&::-webkit-input-placeholder {color: $placeholder_color_focus;}
+		&::-moz-placeholder {color: $placeholder_color_focus;}
+	}
+}
+
+input[type="file"].custom-file-input {cursor: pointer;}
+
+//Drag and Drop File Uploads
+.nebula-drop-area {position: relative;
+	&:not(.no-ui) {padding: 15px 25px; border: 1px dotted grey; border-radius: 5px; margin-bottom: 10px;}
+
+	* {transition: opacity 0.25s ease;}
+
+	&::after {position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; color: #000; font-weight: bold; pointer-events: none; transition: background-color 0.25s ease;}
+
+	&.dragover {border: none;
+		* {opacity: 0.05;}
+
+		&::after {
+			content: "Release to upload...";
+			color: $success_color;
+			background-color: rgb($success_color, 20%);
+			background-image: linear-gradient(90deg, $success_color 50%, transparent 50%), linear-gradient(90deg, $success_color 50%, transparent 50%), linear-gradient(0deg, $success_color 50%, transparent 50%), linear-gradient(0deg, $success_color 50%, transparent 50%);
+			background-repeat: repeat-x, repeat-x, repeat-y, repeat-y;
+			background-size: 15px 2px, 15px 2px, 2px 15px, 2px 15px;
+			background-position: left top, right bottom, left bottom, right   top;
+			animation: border-motion 2s infinite linear;
+
+			@keyframes border-motion {
+				0% {background-position: left top, right bottom, left bottom, right top;}
+				100% {background-position: left 15px top, right 15px bottom, left bottom 15px, right top 15px;}
+			}
+		}
+	}
+
+	&.dropped:not(.no-ui) {border: 1px solid $success_color;}
+
+	&.rejected {border: 1px solid $danger_color;
+		* {opacity: 0.05;}
+
+		&::after {content: "Invalid upload."; background-color: rgb($danger_color, 20%); color: $danger_color;}
+	}
+}
+
+::-ms-clear {display: none;} //Hide the IE clear "X"
+::-ms-reveal {display: none;} //Hide the IE password reveal button
+
+//Hack to "fix" autocomplete in Chrome from applying an unchangable background color ("yellow" forms)
+//If you need to change the text color as well, use: -webkit-text-fill-color: green !important;
+.ignore-autocomplete-style {
+	&:-webkit-autofill,
+	&:-webkit-autofill:hover,
+	&:-webkit-autofill:focus,
+	&:-webkit-autofill:active {-webkit-transition-delay: 99999s !important; -webkit-transition-property: background-color !important;}
+}
+
+//Nebula Search Forms
+form.nebula-search {position: relative; display: inline-block; margin: 0;
+	.nebula-input-group {display: flex; align-items: center;} //Modify Bootstrap to center align Nebula search input content
+
+	input {max-width: 30px; padding: 0 6px; color: transparent; font-size: rem(12px); line-height: 1.15rem; background: rgb(255 255 255 / 10%); border: 1px solid rgb(255 255 255 / 10%); border-radius: 20px; outline: none; cursor: pointer; transition: all 0.25s;  will-change: width;
+		&:hover {background-color: rgb(255 255 255 / 30%);}
+		&:focus,
+		&.focus {max-width: 210px; padding-left: 25px; cursor: auto; color: #fff; background-color: rgb(255 255 255 / 30%);}
+		&.open {max-width: 100%; padding-left: 25px; cursor: auto; color: #fff;}
+		&.active {border-color: $primary_color; box-shadow: 0 0 5px rgb(red($primary_color), green($primary_color), blue($primary_color), 50%);}
+
+		&::-webkit-search-decoration,
+		&::-webkit-search-cancel-button {display: none;}
+
+		&:-moz-placeholder {color: transparent;}
+		&:-ms-input-placeholder {color: transparent;}
+		&::-webkit-input-placeholder {color: transparent;}
+
+		&:focus:-moz-placeholder, &.open:-moz-placeholder {color: #aaa;}
+		&:focus:-ms-input-placeholder, &.open:-ms-input-placeholder {color: #aaa;}
+		&:focus::-webkit-input-placeholder, &.open::-webkit-input-placeholder {color: #aaa;}
+	}
+
+	i, svg {position: absolute; left: 7px; font-size: rem(12px); color: rgb(255 255 255 / 75%); opacity: 0.5; pointer-events: none;}
+}
+
+//Nebula Feedback System
+#nebula-feedback-system {margin-top: 50px; margin-bottom: 50px;
+	#nebula-feedback-question {display: flex; gap: 15px; align-items: center;
+		.nebula-feedback-button {background: #ddd; border-radius: 5px; padding: 2px 10px; color: #212529;}
+
+		#nebula-feedback-yes {
+			i {color: rgba($success_color, 60%);}
+			&:hover,
+			&:focus {background: rgba($success_color, 10%);}
+		}
+
+		#nebula-feedback-no {
+			i {color: rgba($danger_color, 60%);}
+			&:hover,
+			&:focus {background: rgba($danger_color, 10%);}
+		}
+
+		&.not-helpful-active {
+			#nebula-feedback-yes {white-space: nowrap; overflow: hidden; pointer-events: none;}
+			#nebula-feedback-no {background: rgba($danger_color, 10%); pointer-events: none;}
+		}
+	}
+
+	#nebula-feedback-form-container {display: none; margin-top: 15px; width: 100%; max-width: 400px;
+		.nebula-form-group {margin-bottom: 15px;}
+		.form-label {font-size: rem(16px);}
+		textarea {height: 100px; max-height: 500px;}
+	}
+
+	#nebula-feedback-thanks {display: none; color: $success_color; font-style: italic;}
+}

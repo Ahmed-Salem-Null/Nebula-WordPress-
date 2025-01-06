@@ -1,0 +1,327 @@
+//.element {@include prefix((transition: all 0.25s), webkit ms);}
+//.element {@include prefix((animation: animation-name 2s infinite linear));}
+@mixin prefix($map, $vendors: webkit moz ms o){
+	@each $prop, $value in $map {
+		@if $vendors {
+			@each $vendor in $vendors {
+				#{"-" + $vendor + "-" + $prop}: #{$value};
+			}
+		}
+
+		#{$prop}: #{$value};
+	}
+}
+
+//.element::before {content: "\f001"; @include font-awesome("solid");}
+/* Notes:
+	FA Solid (Pro) needs font weight of 900
+	FA Regular (Pro) needs font weight of 400
+	FA Light (Pro) needs font weight of 300
+	FA Brands needs font weight of 400
+	FA Duotone (Pro) needs font weight of 900
+	FA Free needs font weight of 900
+	FA Pro (which works without pro) uses font weight 300 for solid... This is a weird one...
+	Therefore, some instances may need additional overrides (like when calling FA Light, but not having FA Pro) https://github.com/chrisblakley/Nebula/issues/1665
+*/
+@mixin font-awesome($type: "solid"){
+	@if $type == "solid" {
+		font-family: "Font Awesome 6 Solid", "Font Awesome 6 Free", "Font Awesome 6 Pro", "Font Awesome 6 Brands"; font-weight: 900;
+	} @else if $type == "regular" {
+		font-family: "Font Awesome 6 Regular", "Font Awesome 6 Free", "Font Awesome 6 Pro", "Font Awesome 6 Brands"; font-weight: 400; //If this falls back to free, the font weight may not be compatible...
+	} @else if $type == "light" {
+		font-family: "Font Awesome 6 Light", "Font Awesome 6 Free", "Font Awesome 6 Pro", "Font Awesome 6 Brands"; font-weight: 300; //If this falls back to free, the font weight may not be compatible...
+	} @else if $type == "duotone" {
+		font-family: "Font Awesome 6 Duotone", "Font Awesome 6 Solid", "Font Awesome 6 Free", "Font Awesome 6 Pro", "Font Awesome 6 Brands"; font-weight: 900; //If this falls back to free, the font weight may not be compatible...
+	} @else if $type == "free" {
+		font-family: "Font Awesome 6 Free", "Font Awesome 6 Pro", "Font Awesome 6 Brands"; font-weight: 900;
+	} @else if $type == "brand" {
+		font-family: "Font Awesome 6 Brands"; font-weight: 400;
+	}
+}
+
+//Add a btn and bg helper class
+//@include add-color-class("accent", cyan);
+//@include add-color-class("accent", purple, white);
+@mixin add-color-class($name, $bg, $fg: null, $active_bg: null, $active_fg: null){
+	@if ( $fg == null ){
+		$fg: readable-color($bg);
+	}
+
+	@if ( $active_bg == null ){
+		$active_bg: $bg;
+	}
+
+	@if ( $active_fg == null ){
+		$active_fg: readable-color($active_bg);
+	}
+
+	.btn.btn-#{$name},
+	.btn.btn-#{$name}:visited {background-color: $bg; border-color: $bg; color: $fg;
+		&:hover, &:focus {background: darken($bg, 10%); border-color: darken($bg, 10%); color: $fg;}
+		&:focus {box-shadow: 0 0 0 0.2rem rgb($bg, 25%);}
+		&:active,
+		&.active {background: $active_bg; border-color: $active_bg; color: $active_fg;}
+	}
+
+	.btn.btn-outline-#{$name},
+	.btn.btn-outline-#{$name}:visited {color: $bg; background-color: transparent; background-image: none; border-color: $bg;
+		&:hover, &:focus {color: #fff; background-color: $bg; border-color: $bg;}
+		&:active,
+		&.active {background-color: $active_bg; border-color: $active_bg;}
+	}
+
+	.bg-#{$name} {background-color: $bg !important;}
+	.border-#{$name} {border-color: $bg !important;}
+	.#{$name}-color {color: $bg !important;}
+}
+
+//.element a {@include link-colors(red, orange, yellow, green, blue);}
+//.element a {@include link-colors(blue, green);}
+@mixin link-colors($normal, $hover: false, $active: false, $visited: false, $focus: false){
+	color: $normal;
+
+	@if $visited {
+		&:visited {color: $visited;}
+	} @else if $normal {
+		&:visited {color: $normal;}
+	}
+
+	@if $focus {
+		&:focus {color: $focus;}
+	} @else if $hover {
+		&:focus {color: $hover;}
+	}
+
+	@if $hover {
+		&:hover {color: $hover;}
+	}
+
+	@if $active {
+		&:active {color: $active;}
+	} @else if $hover {
+		&:active {color: $hover;}
+	}
+}
+
+//.element a {@include link-bg-colors(red, orange, yellow, green, blue);}
+//.element a {@include link-bg-colors(blue, green);}
+@mixin link-bg-colors($normal, $hover: false, $active: false, $visited: false, $focus: false){
+	background-color: $normal;
+
+	@if $visited {
+		&:visited {background-color: $visited;}
+	} @else if $normal {
+		&:visited {background-color: $normal;}
+	}
+
+	@if $focus {
+		&:focus {background-color: $focus;}
+	} @else if $hover {
+		&:focus {background-color: $hover;}
+	}
+
+	@if $hover {
+		&:hover {background-color: $hover;}
+	}
+
+	@if $active {
+		&:active {background-color: $active;}
+	} @else if $hover {
+		&:active {background-color: $hover;}
+	}
+}
+
+//.element {@include background-color(#333, 50%);}
+@mixin background-color($color, $opacity: 10%){
+    background-color: $color; background-color: rgb($color, $opacity);
+}
+
+//.element {@include linear-gradient(to bottom, #31B7D7, #EDAC7D);}
+//.element {@include linear-gradient(to right, #E47D7D 0%, #C195D3 50%, #4FB4E8 100%);}
+@mixin linear-gradient($direction, $colors...){
+	background: nth(nth($colors, 1), 1); background: linear-gradient($direction, $colors);
+}
+
+//.element {@include tablet(){background: red;}}
+//.element {@include tablet(landscape){background: purple;}}
+@mixin tablet($orientation: "portrait"){
+	@if $orientation == "landscape" {
+		@media only screen and (max-width: 1023px){& {@content}} //This size and smaller
+	} @else {
+		@media only screen and (max-width: #{$md - 1}px){& {@content}} //This size and smaller
+	}
+}
+//.element {@include mobile(){background: red;}}
+//.element {@include mobile(landscape){background: purple;}}
+@mixin mobile($orientation: "portrait"){
+	@if $orientation == "landscape" {
+		@media only screen and (max-width: 668px){& {@content}} //This size and smaller
+	} @else {
+		@media only screen and (max-width: 376px){& {@content}} //This size and smaller
+	}
+}
+//.element {@include media(mobile) {background: red;}}
+//.element {@include media(custom, "only screen and (max-width: 550px)") {background: red;}}
+@mixin media($group, $custom: ""){
+	//Device Types
+	@if ( $group == "desktop" or $group == "laptop" ){
+		@media (hover: hover){& {@content}} //Devices that can hover
+	}
+	@if ( $group == "smartphone" or $group == "touchscreen" ){
+		@media (hover: none) and (pointer: coarse){& {@content}} //Devices that cannot hover and have a coarse pointer
+	}
+	@if ( $group == "print" ){
+		@media only print {& {@content}}
+	}
+
+	//Screen Sizes
+	@if ( $group == "tablet_landscape" ){
+		@include tablet(landscape){& {@content}} //This size and smaller
+	}
+	@if ( $group == "tablet" ){
+		@include tablet(){& {@content}} //This size and smaller
+	}
+	@if ( $group == "mobile_landscape" ){
+		@include mobile(landscape){& {@content}} //This size and smaller
+	}
+	@if ( $group == "mobile" ){
+		@include mobile(){& {@content}} //This size and smaller
+	}
+
+	//Bootstrap
+	@if ( $group == "sm" ){
+		@media (min-width: #{$sm}px){& {@content}} //This size and larger
+	}
+	@if ( $group == "md" ){
+		@media (min-width: #{$md}px){& {@content}} //This size and larger
+	}
+	@if ( $group == "lg" ){
+		@media (min-width: #{$lg}px){& {@content}} //This size and larger
+	}
+	@if ( $group == "xl" ){
+		@media (min-width: #{$xl}px){& {@content}} //This size and larger
+	}
+	@if ( $group == "xxl" or $group == "widescreen" ){
+		@media (min-width: #{$xxl}px){& {@content}} //This size and larger
+	}
+
+	@if ( $group == "ultrawidescreen" or $group == "uw" ){
+		@media only screen and (min-width: 2048px){& {@content}} //This size and larger
+	}
+
+	//Custom media query
+	@if ( $group == "custom" ){
+		@media #{$custom} {& {@content}}
+	}
+}
+
+//.element {@include supports(box-shadow, 2px 2px 2px black);}
+@mixin supports($property, $value){ //@TODO "Nebula" 0: Ideally the property and value would be passed as a single variable: supports(box-shadow: 2px 2px 2px black);
+	@supports ($property $value){
+		& {#{$property}: $value}
+	}
+}
+
+//.element {@include diffuse-shadow(8, rgb(0 0 0 / 25%), true);}
+@mixin diffuse-shadow($size, $color: rgb(0 0 0 / 12.5%), $multiply: false){
+	$val: 0 1px 1px $color;
+	@for ( $i from 1 through $size ){
+		@if ( $i % 2 == 0 ){
+			@if ( $multiply == true ){
+				$i: $i * 2;
+			}
+			$val: #{$val}, 0 #{$i}px #{$i}px #{$color};
+		}
+	}
+
+	box-shadow: $val;
+}
+
+//.element {@include clearfix();}
+@mixin clearfix(){
+	&::before,
+	&::after {content: ""; display: table;}
+	&::after {clear: both;}
+}
+
+//Maintain a responsive aspect ratio
+//.element {@include ratio(16, 9);}
+@mixin ratio($x, $y, $pseudo: false){
+	$padding: unquote(($y/$x)*100 + "%");
+	@if $pseudo {
+		&::before {content: ""; display: block; position: relative; width: 100%; padding-top: $padding;}
+	} @else {
+		padding-top: $padding;
+	}
+}
+
+//.element {@include zoom(1.5);}
+//.element {@include zoom(0.75, center top);}
+@mixin zoom($scale: 1, $origin: 0 0){
+	transform: scale($zoom);
+	transform-origin: $origin;
+}
+
+//@include keyframes(slide-down){0% {opacity: 1;} 90% {opacity: 0;}}
+@mixin keyframes($animation-name){
+	@-webkit-keyframes $animation-name {@content;}
+	@keyframes $animation-name {@content;}
+}
+
+//Prepend an icon to a link that slides in on hover.
+//a.element {@include iconpeek();}
+@mixin iconpeek(){
+	display: inline-block; position: relative; overflow: hidden; transform: translate3d(-20px, 0, 0); transition: transform 0.4s easing(easeOutBack) !important; will-change: transform;
+	svg, i {transform: translate3d(-20px, 0, 0); transition: transform 0.4s easing(easeOutBack); will-change: transform;}
+
+	&:hover {transform: translate3d(0, 0, 0);
+		svg, i {transform: translate3d(0, 0, 0);}
+	}
+}
+
+//.element-solid {@include arrow("top", "left", 10px, #4fade3);}
+//.element-border {@include arrow("top", "left", 10px, #eee, #4fade3, 6px);}
+@mixin arrow($side: "right", $align: "center", $size: 20px, $color: #f6f6f6, $borderColor: "none", $borderSize: 3px) {
+	$selector: "&::after, &::before";
+	@if $borderColor == "none" {
+		$selector: "&::after";
+	}
+	#{$selector} {border: solid transparent; content: " "; height: 0; width: 0; position: absolute; pointer-events: none; visibility: visible;}
+	&::after {border-width: $size; @include arrow_helper($size, $color, $size, $side, $align);}
+
+	@if $borderColor != "none" {
+		&::before {border-width: $borderSize + $size; @include arrow_helper($size + $borderSize, $borderColor, $size - $borderSize, $side, $align);}
+	}
+}
+@mixin arrow_helper($arrowSize, $arrowColor, $margin, $side, $align) {
+	@if $side == "top" {
+		border-bottom-color: $arrowColor; top: -2 * $arrowSize;
+	}
+	@if $side == "bottom" {
+		border-top-color: $arrowColor; bottom: -2 * $arrowSize;
+	}
+	@if $side == "left" {
+		border-right-color: $arrowColor; left: -2 * $arrowSize;
+	}
+	@if $side == "right" {
+		border-left-color: $arrowColor; right: -2 * $arrowSize;
+	}
+	@if $side == "right" or $side == "left" {
+		@if $align == "center" {
+			top: 50%; margin-top: -$arrowSize;
+		} @else if $align == "top" {
+			top: $margin;
+		} @else if $align == "bottom" {
+			bottom: $margin;
+		}
+	}
+	@if $side == "bottom" or $side == "top" {
+		@if $align == "center" {
+			right: 50%; margin-right: -$arrowSize;
+		} @else if $align == "left" {
+			left: $margin;
+		} @else if $align == "right" {
+			right: $margin;
+		}
+	}
+}

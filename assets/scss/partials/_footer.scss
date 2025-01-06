@@ -1,0 +1,75 @@
+// ===========================
+// Footer
+// ===========================
+
+#footer-section {content-visibility: auto; position: relative; padding: 50px 0 150px; background: url($template_directory + "/assets/img/nebula-mountain.jpg") no-repeat bottom center / cover; transition: all 0.5s; will-change: auto;
+	@include media("lg"){padding: 50px 0 200px;}
+	a:not(.btn) {@include link-colors(#fff, #aaa);}
+}
+
+//Footer Logo
+.footerlogocon {text-align: center; margin-bottom: 20px;}
+
+//Footer Widgets
+#footer-widget-section {position: relative; padding: 50px 0; background: #ddd;
+	.widget-container {font-size: rem(16px);
+		.widget-title {font-size: rem(18px); font-weight: 800; margin-bottom: 15px;}
+
+		ul {margin: 0; padding: 0;
+			li {list-style: none; font-size: rem(16px); margin: 0 0 10px;}
+		}
+	}
+}
+
+//Power Footer
+.row.powerfootercon {display: none; padding-top: 20px; margin-bottom: 30px;
+	@include media("lg"){display: block;}
+
+	#powerfooter {position: relative; z-index: 1000;
+		ul {display: -ms-flexbox; display: flex; list-style: none; margin-bottom: 25px; z-index: 10;
+			li.menu-item {-ms-flex-item-align: stretch; align-self: stretch; -ms-flex: 1; flex: 1;
+				//&:first-child {}
+				//&:last-child {}
+
+				a {display: block; font-size: rem(18px); font-weight: 800; margin-bottom: 10px;}
+
+				ul.sub-menu {display: block; margin: 0; padding: 5px 0;
+					li {display: block; margin: 0 0 10px; padding: 0;
+						a {display: block; font-size: rem(16px); font-weight: normal; margin-bottom: 0;}
+						ul.sub-menu {display: none;}
+					}
+				}
+			}
+		}
+	}
+}
+
+//Footer Copyright
+.copyright-con {position: relative; padding-top: 20px; text-align: center; color: #fff; z-index: 10;
+	p {display: inline-block; font-size: rem(14px); color: #fff;}
+}
+
+//Cookie Notification
+#nebula-cookie-notification {position: fixed; bottom: auto; bottom: 40px; left: 0; right: 0; margin: 0 auto; background: rgb(0 0 0 / 90%); backdrop-filter: blur(3px); color: #bbb; font-size: 1rem; padding: 25px; max-width: 300px; box-shadow: 0 6px 24px 0 rgb(0 0 0 / 30%); z-index: 999999; opacity: 0; pointer-events: none; will-change: opacity; transition: opacity 0.75s ease; //z-index no higher than 1049 so it appears behind Bootstrap offcanvas menu
+	@include media("md"){max-width: 400px; right: auto; top: unset; bottom: 40px; margin: unset; will-change: opacity, transform; transition: all 0.75s easing(easeOutBack);} //Desktop
+
+	&.active {opacity: 1; transform: translate3d(0, 0, 0); pointer-events: all;
+		@include media("md"){transform: translate3d(40px, 0, 0);}
+	}
+
+	p {color: #ffffffb2;}
+
+	//In case the user-editable cookie text includes HTML links
+	a {color: #fff;
+		&:hover,
+		&:focus {color: #bbb;}
+	}
+
+	//Acceptance links
+	div.links {display: flex; justify-content: flex-end;
+		a {margin-left: 15px; padding: 5px 10px; border-radius: 5px; color: high-contrast-color(#000, $primary_color, #fff);
+			&:hover,
+			&:focus {background: $primary_color; color: readable-color($primary_color);}
+		}
+	}
+}

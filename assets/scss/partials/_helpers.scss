@@ -1,0 +1,320 @@
+// ===========================
+// Special Nebula Helpers
+// ===========================
+
+.nebula-peek, .nebula-iconpeek, a.nebula-peek, a.nebula-iconpeek {@include iconpeek();}
+
+.nebulaborder {padding: 5px; background: #fff; border: 1px solid #aaa;}
+
+.nebulashadow {position: relative;
+	&.floating {
+		&::after {content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%; box-shadow: 0 17px 25px -15px rgb(0 0 0 / 40%); z-index: -1; pointer-events: none;}
+		&.above {
+			&::before {content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%; box-shadow: 0 -17px 25px -15px rgb(0 0 0 / 40%); z-index: -1; pointer-events: none;}
+		}
+	}
+
+	&.bulging {
+		&::after {content: ""; position: absolute; left: 0; right: 0; bottom: -13px; width: 96%; height: 30px; margin: 0 auto; background: rgb(0 0 0 / 40%); filter: blur(25px); border-radius: 50%; transform: scaleY(.3); z-index: -1; pointer-events: none;}
+		&.above {
+			&::before {content: ""; position: absolute; left: 0; right: 0; top: -13px; width: 96%; height: 30px; margin: 0 auto; background: rgb(0 0 0 / 40%); filter: blur(25px); border-radius: 50%; transform:scaleY(.3); z-index: -1; pointer-events: none;}
+		}
+	}
+
+	&.curling {//This can not appear above.
+		&::before {content: ""; position: absolute; bottom: 4px; left: 10px; height: 20px; width: 70%; background: rgb(0 0 0 / 40%); filter: blur(6px); transform: rotate(-3deg); z-index: -1; pointer-events: none;}
+		&::after {content: ""; position: absolute; bottom: 4px; right: 10px; height: 20px; width: 70%; background: rgb(0 0 0 / 40%); filter: blur(6px); transform: rotate(3deg); z-index: -1; pointer-events: none;}
+	}
+
+	&.hovering {
+		&::after {content: ""; position: absolute; left: 0; right: 0; bottom: -30px; width: 98%; height: 30px; margin: 0 auto; background: rgb(0 0 0 / 15%); filter: blur(15px); border-radius: 50%; transform:scaleY(.2); z-index: -1; pointer-events: none;}
+		&.above {
+			&::before {content: ""; position: absolute; left: 0; right: 0; top: -30px; width: 98%; height: 30px; margin: 0 auto; background: rgb(0 0 0 / 15%); filter: blur(15px); border-radius: 50%; transform:scaleY(.2); z-index: -1; pointer-events: none;}
+		}
+	}
+
+	&.anchored-right {
+		&::after {content: ""; position: absolute; bottom: 0; left: 10px; height: 20px; width: 92%; background: rgb(0 0 0 / 40%); filter: blur(6px); transform: rotate(-2deg); z-index: -1; pointer-events: none;}
+		&.above {
+			&::before {content: ""; position: absolute; top: 0; left: 10px; height: 20px; width: 92%; background: rgb(0 0 0 / 40%); filter: blur(6px); transform: rotate(2deg); z-index: -1; pointer-events: none;}
+		}
+	}
+
+	&.anchored-left {
+		&::after {content: ""; position: absolute; bottom: 0; right: 10px; height: 20px; width: 92%; background: rgb(0 0 0 / 40%); filter: blur(6px); transform: rotate(2deg); z-index: -1; pointer-events: none;}
+		&.above {
+			&::before {content: ""; position: absolute; top: 0; right: 10px; height: 20px; width: 92%; background: rgb(0 0 0 / 40%); filter: blur(6px); transform: rotate(-2deg); z-index: -1; pointer-events: none;}
+		}
+	}
+
+	&.above {
+		&::after {display: none;}
+	}
+
+	&.below {
+		&::after {display: block;}
+	}
+
+	&.inner-top {box-shadow: inset 0 17px 25px -15px rgb(0 0 0 / 40%);}
+	&.inner-bottom {box-shadow: inset 0 -17px 25px -15px rgb(0 0 0 / 40%);}
+	&.inner-top.inner-bottom {box-shadow: inset 0 17px 25px -15px rgb(0 0 0 / 40%), inset 0 -17px 25px -15px rgb(0 0 0 / 40%);}
+}
+
+.nebulaframe {position: relative; padding: 5px; background: #fff; border: 1px solid #aaa;
+	a& {border: none;}
+}
+
+//Equalize column heights within a row (Not to be confused with .equalize class that uses nebula.js)
+.row-table {display: block;
+	[class*="col-sm" i] {display: block; @include media("sm"){display: table-cell; float: none;}}
+	[class*="col-md" i] {display: block; @include media("md"){display: table-cell; float: none;}}
+	[class*="col-lg" i] {display: block; @include media("lg"){display: table-cell; float: none;}}
+
+	&.sm-cols {@include media("sm"){display: table; table-layout: fixed;} }
+	&.md-cols {@include media("md"){display: table; table-layout: fixed;} }
+	&.lg-cols {@include media("lg"){display: table; table-layout: fixed;} }
+}
+
+//Note: To use nebula-vmiddle, the parent element must have a set height (not a min-height)!
+//!.nebula-vmiddle, .nebula-vmiddle-con {transform-style: preserve-3d;} //Prevent blurry half-pixel centering on parent element
+.nebula-vmiddle,
+.valign > div {position: relative; top: 50%; transform: translateY(-50%);}
+
+.filtereditem {display: none;}
+
+// ===========================
+// Bootstrap Helpers and Overrides
+// ===========================
+
+.btn {cursor: pointer; white-space: normal; word-wrap: break-word; //Allow word wrapping on Bootstrap buttons
+	&.btn-primary:focus,
+	&.btn-success:focus,
+	&.btn-info:focus,
+	&.btn-warning:focus,
+	&.btn-danger:focus {color: #fff;}
+}
+
+//These help on the admin side where Bootstrap CSS is not loaded
+.text-success {color: $success_color;}
+.text-warning {color: $warning_color;}
+.text-danger {color: $danger_color;}
+.text-info {color: darken($info_color, 11%);}
+
+.nebula-flex-first {order: -1;} //Default flex order is 0. This class forces a column before that.
+
+.col-centered {float: none; margin: 0 auto;}
+.col-sm-centered {@include media("sm"){float: none; margin: 0 auto;}} //This size and larger
+.col-md-centered {@include media("md"){float: none; margin: 0 auto;}} //This size and larger
+.col-lg-centered {@include media("lg"){float: none; margin: 0 auto;}} //This size and larger
+.col-xl-centered {@include media("xl"){float: none; margin: 0 auto;}} //This size and larger
+.col-lte-lg-centered {@media (max-width: #{$xl - 1}px){& {float: none; margin: 0 auto;}}} //This size and smaller
+.col-lte-md-centered {@media (max-width: #{$lg - 1}px){& {float: none; margin: 0 auto;}}} //This size and smaller
+.col-lte-sm-centered {@media (max-width: #{$md - 1}px){& {float: none; margin: 0 auto;}}} //This size and smaller
+.col-xs-centered {@media (max-width: #{$sm - 1}px){& {float: none; margin: 0 auto;}}}
+
+//Only needed when full Bootstrap assets are not loaded
+.bs-grid {
+	.visually-hidden {border: 0; clip: rect(0,0,0,0); height: 1px; margin: -1px; overflow: hidden; padding: 0; position: absolute; width: 1px;}
+	.form-control {padding: .375rem .75rem; border: 1px solid #ced4da;}
+	.input-group {position: relative; display: flex; flex-wrap: wrap; align-items: stretch; width: 100%;}
+	.btn {display: inline-block; text-align: center; white-space: nowrap; vertical-align: middle; border: 1px solid transparent; padding: .375rem .75rem;}
+}
+
+//Enable support for the WordPress alignwide class on a Bootstrap row.
+//Remember to add this class to the row and then contain the col class div itself (something like col-md-8 works well).
+.alignwide-row {justify-content: center;
+	.alignwide {
+		@include media("lg"){margin-left: -200px; margin-right: -200px;}
+	}
+}
+
+//Modal Enhancement
+.nebula-modal {backdrop-filter: blur(6px);
+	.modal-dialog {
+		.modal-content {background-color: rgb(255 255 255 / 90%);
+			.modal-header {border-bottom: 1px solid rgb(0 0 0 / 5%);}
+			.modal-footer {border-top: 1px solid rgb(0 0 0 / 5%);}
+		}
+	}
+}
+
+// ===========================
+// Generic Helpers
+// ===========================
+
+//Front-end only helpers
+body:not(.wp-admin) {
+	.hidden {display: none !important; visibility: hidden;} //Hide from both screenreaders and browsers
+	.visuallyhidden {border: 0; clip: rect(0 0 0 0); height: 1px; margin: -1px; overflow: hidden; padding: 0; position: absolute; width: 1px; //Hide only visually, but have it available for screenreaders
+		&.focusable:active,
+		&.focusable:focus {clip: auto; height: auto; margin: 0; overflow: visible; position: static; width: auto;} //Allow the element to be focusable when navigated to via the keyboard
+	}
+	.invisible {visibility: hidden;} //Hide visually and from screenreaders, but maintain layout
+	.clearfix {@include clearfix();}
+	div.space {clear: both; display: block; overflow: hidden; visibility: hidden; width: 0; height: 0;}
+	.avoid-clicks {pointer-events: none;}
+	.allow-clicks {pointer-events: all;}
+	.filtered {display: none;}
+
+	//Animate focus indicator
+	@media (prefers-reduced-motion: no-preference){
+		:focus {transition: outline-offset 0.25s ease, box-shadow 0.25s ease; outline-offset: 4px;} //Box shadow for Bootstrap form inputs and buttons
+	}
+}
+
+hr.nebula-line {display: block; height: 1px; border: 0; border-top: 1px solid #ccc; @include background-color(#fff); margin: 3px 0; padding: 0;
+	.rgba & {display: block; height: 1px; border: 0; margin: 3px 0; padding: 0; mix-blend-mode: screen;}
+	.rgba &::before {content: ""; position: relative; top: -1px; height: 1px; display: block; @include background-color(#000, 0.2); mix-blend-mode: multiply;}
+	&.zero {margin: 0;}
+}
+
+ul.list-unstyled {list-style: none; padding-left: 0;}
+
+.nebula-sticky {position: sticky; top: 0;} //Sticky requires a top value. Default is set to 0 here.
+
+.pretty-underline {text-decoration-skip-ink: auto;} //Underline does not interfere with character descenders
+
+.aligncenter, .align-center {display: block; margin: 0 auto;}
+.alignleft, .align-left {float: left;}
+.alignright, .align-right {float: right;}
+.text-left {text-align: left;}
+.text-center {text-align: center;}
+.text-right {text-align: right;}
+.wp-caption {border: 1px solid #666; text-align: center; background: #ccc; padding: 10px; margin: 10px;}
+//.wp-caption-text {}
+
+.nowrap, .no-wrap {white-space: nowrap;}
+
+/* Nebula Desktop Helper Styles */
+.disallowed {background: #bbb !important; border: 1px solid #999 !important; cursor: default !important;
+	&.notallowed {cursor: not-allowed !important;}
+}
+.focusError {background-color: #fcc !important; border: 1px solid #f88 !important; transition: all 0.25s;}
+
+img.fa.nebula-fa {text-align: center; width: 1.25em; vertical-align: text-bottom;} //Make an img tag behave similar to a Font Awesome icon (remember to also use the fa class too)
+
+body.admin-bar {scroll-padding-top: 32px;} //Account for the admin bar height when auto scrolling
+
+// ===========================
+// Social Media Badges
+// ===========================
+
+//Instagram - https://instagram.com/accounts/badges/
+.ig-b- {display: inline-block; transition: none;
+	&:hover {background-position: 0 -60px;}
+	&:active {background-position: 0 -120px;}
+	img {visibility: hidden;}
+}
+.ig-b-v-24 {width: 137px; height: 24px; background: url("https://badges.instagram.com/static/assets/img/ig-badge-view-sprite-24.png") no-repeat 0 0;}
+@media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2 / 1), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx){
+	.ig-b-v-24 {background-image: url("https://badges.instagram.com/static/assets/img/ig-badge-view-sprite-24@2x.png"); background-size: 160px 178px;}
+}
+
+//Nebula social share buttons
+a.nebula-share-btn {display: inline-block; padding: 5px 7px; border-radius: 3px; font-size: rem(12px); line-height: 1; color: #fff !important; text-shadow: 1px 1px rgb(0 0 0 / 25%); margin-right: 5px;
+	&:last-child {margin-right: 0;}
+	&::before {font-family: "Font Awesome 6 Brands"; margin-right: 4px; text-shadow: none;}
+
+	&.facebook {background: brand(facebook);
+		&::before {content: "\f09a";}
+		&:hover {background: darken(brand(facebook), 15%);}
+	}
+	&.twitter {background: brand(twitter);
+		&::before {content: "\f099";}
+		&:hover {background: darken(brand(twitter), 15%);}
+	}
+	&.linkedin {background: brand(linkedin);
+		&::before {content: "\f0e1";}
+		&:hover {background: darken(brand(linkedin), 15%);}
+	}
+	&.pinterest{background: brand(pinterest);
+		&::before {content: "\f0d2";}
+		&:hover {background: darken(brand(pinterest), 15%);}
+	}
+	&.email {background: grey;
+		&::before {content: "\f0e0"; @include font-awesome("solid");}
+		&:hover {background: darken(grey, 15%);}
+	}
+	&.shareapi {background: orange;
+		&::before {content: "\f1e0"; @include font-awesome("solid");}
+		&:hover {background: darken(orange, 15%);}
+	}
+}
+
+// ===========================
+// Special File Type Indicators
+// ===========================
+
+//@include file_icon(doc docx, f1c2, #2b5797);
+@mixin file_icon($filetypes, $unicode: "\f016", $color: #292b2c, $specific: false){
+	@each $filetype in $filetypes {
+		@if $specific { //Some file extensions must explicitly request an icon. These can be called anywhere on the page.
+			a.icon[href$=".#{$filetype}" i] {text-decoration: none; border-bottom: 1px dotted $color;
+				&::before {content: "#{$unicode}"; @include font-awesome("solid"); color: $color; margin-right: 7px; font-weight: 300;}
+			}
+		} @else { //Otherwise, it only automatically adds icons to links within the entry content area.
+			.entry-content {
+				a[href$=".#{$filetype}" i]:not(.no-icon):not(.btn):not(.wp-block-button__link),
+				li.icon a[href$=".#{$filetype}" i] {text-decoration: none; border-bottom: 1px dotted $color;
+					&::before {content: "#{$unicode}"; @include font-awesome("solid"); color: $color; margin-right: 7px; font-weight: 300;}
+				}
+			}
+		}
+	}
+}
+
+@include file_icon(doc docx, "\f1c2", #2b5797);
+@include file_icon(xls xlsx, "\f1c3", #1e7145);
+@include file_icon(ppt pptx, "\f1c4", #d04525);
+@include file_icon(pdf pdfx, "\f1c1", #eb3b00);
+@include file_icon(zip zipx rar gz tar, "\f1c6", #777);
+@include file_icon(txt rtf, "\f15c", #777);
+@include file_icon(html, "\f1c9", #f1672c, true);
+@include file_icon(php, "\f1c9", #5a68a5, true);
+@include file_icon(js, "\f1c9", #f1bf26, true);
+@include file_icon(css scss, "\f1c9", #30a9dc, true);
+
+a.white, li.icon.white a {@include link-colors(#fff, #ccc);
+	&::before {color: #fff !important;}
+}
+
+// ===========================
+// Brand colors
+// ===========================
+
+@include add-color-class("brand", $primary_color);
+@include add-color-class("brand-secondary", $secondary_color);
+
+//@include brand_link(facebook);
+@mixin brand_link($brand){
+	@if brand($brand) == brand($brand, 2){
+		a.#{$brand} {@include link-colors(brand($brand), darken(brand($brand), 15%));}
+	} @else {
+		a.#{$brand} {@include link-colors(brand($brand), (brand($brand, 2));}
+	}
+}
+@include brand_link(facebook);
+@include brand_link(twitter);
+@include brand_link(linkedin);
+@include brand_link(github);
+@include brand_link(youtube);
+@include brand_link(instagram);
+@include brand_link(soundcloud);
+
+// ===========================
+// Nebula Debug
+// ===========================
+
+.border-red, .outline-red {outline: 1px solid red;}
+.border-orange, .outline-orange {outline: 1px solid orange;}
+.border-yellow, .outline-yellow {outline: 1px solid yellow;}
+.border-green, .outline-green {outline: 1px solid green;}
+.border-blue, .border-indigo, .outline-blue, .outline-indigo {outline: 1px solid blue;}
+.border-purple, .border-violet, .outline-purple, .outline-violet {outline: 1px solid purple;}
+
+.background-red, .bg-red {background: red;}
+.background-orange, .bg-orange {background: orange;}
+.background-yellow, .bg-yellow {background: yellow;}
+.background-green, .bg-green {background: green;}
+.background-blue, .bg-blue, .background-indigo, .bg-indigo {background: blue;}
+.background-purple, .bg-purple, .background-violet, .bg-violet {background: purple;}

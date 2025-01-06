@@ -1,0 +1,544 @@
+@import "variables";
+@import "functions";
+@import "mixins";
+@import "helpers";
+
+$admin_media_queries: (
+	widescreen: "(max-width: 1800px) and (min-width: 1500px)",
+	non_widescreen: "(max-width: 1110px)",
+	desktop: "(max-width: 1499px) and (min-width: 800px)",
+	tablet: "(max-width: 900px) and (min-width: 501px)",
+	mobile: "(max-width: 500px)",
+);
+
+//Note: for the front-end, there is a <style> tag for the adminbar in /libs/Admin/Admin.php
+#wpadminbar {
+	i, svg {-webkit-font-smoothing: antialiased;
+		&.fa-fw {width: 1.25em;}
+	}
+	.svg-inline--fa {height: 1em;}
+}
+
+//Ensure SVG images are sized appropriately
+table.media .column-title .media-icon img,
+img.thumbnail,
+.thumbnail img {width: auto;} //Formerly 100%
+
+//Dashboard Font Awesome Lists
+ul.nebula-fa-ul {margin-left: 1.5em; padding-left: 0;
+	li {position: relative;
+		> i:first-of-type {left: -2em; position: absolute; top: 0.1em; text-align: center; width: 2em; line-height: inherit;
+			&.dashicons-before::before {font-size: 18px;}
+		}
+		> img:first-of-type {max-width: 14px; left: -1.5em; position: absolute; top: 0.35em; text-align: center; width: 2em; line-height: inherit;}
+	}
+}
+
+//Custom Dashboard 2 cols
+.nebula-metabox-row {display: flex; flex-wrap: wrap;
+	.nebula-metabox-col {max-width: calc(50% - 15px); margin-right: 15px;}
+}
+
+//Ensure Dashboard metabox titles are all left-aligned (v5.5+)
+.js .postbox .hndle,
+.js .widget .widget-top {justify-content: start;}
+.postbox a {text-decoration: none;} //Remove underlines from Dashboard metabox links
+
+.filtereditem {display: none !important;}
+
+.nebula_help_link {text-decoration: none;}
+i.help {cursor: help; color: #aaa; transition: all 0.25s;
+	&:hover {color: #444;}
+}
+
+#screen-options-wrap label img {display: none;}
+
+.acf_postbox p.label {display: inline-block;}
+
+.admin-user-info {text-transform: capitalize;}
+
+#wpbody-content {padding-bottom: 40px;}
+#dashboard-widgets .meta-box-sortables {min-height: 0;}
+.metabox-holder .postbox-container .empty-container {height: 100px; margin-bottom: 25px !important;}
+
+li.comment-count {display: none;}
+
+.form-table .helper {padding: 0 10px; margin: 10px 0; background: #f9f9f9; border-radius: 8px;}
+
+th#id {width: 50px;}
+
+.this-user-company-name {white-space: nowrap;}
+
+.nebula-adb-reminder {color: $danger_color;} //Used by Dev Metabox and Nebula Options page
+
+//Dev Metabox
+#nebula_developer_info {
+	.highlight-good {color: $success_color;}
+	.highlight-bad {color: $danger_color;}
+
+	.secured-connection {
+		i, svg {color: $success_color;}
+	}
+	#testloadcon {pointer-events: none; opacity: 0; visibility: hidden; display: none;}
+	form.searchfiles {display: flex; align-items: center; margin-bottom: 10px;
+		#searchprogress {margin-right: 4px;}
+		input.findterm {padding: 2px 5px; font-size: 12px; border-radius: 4px; flex-grow: 2;}
+		.searchdirectory {font-size: 12px; height: 23px; vertical-align: top; max-width: 130px;}
+		input.searchterm {font-size: 12px; line-height: 11px; height: 22px; margin: 1px; outline: none !important;}
+	}
+	.search_results {max-height: 0; opacity: 0; font-size: 10px; background: #f6f6f6; padding: 5px; border: 1px solid #ddd; border-radius: 4px; overflow: auto; white-space: nowrap; transition: all 1s;
+		&.done {max-height: 500px; opacity: 1;}
+		.resulttext {font-size: 10px; margin: 0;}
+	}
+}
+
+img#performance-screenshot {max-width: 100%;}
+
+ul#nebula-performance-metrics li {
+	&.warning i {color: orange;} //Only color the icon for warnings
+	&.error {color: $danger_color;} //Color the entire line for errors
+}
+
+//TODO Manager
+#todo_manager {
+	.todoresults_title {margin-bottom: 0;
+		.todo_help_icon {float: right; font-size: 10px;}
+	}
+	.todo_results {font-size: 10px; background: #f6f6f6; padding: 5px; margin-top: 10px; border: 1px solid #ddd; border-radius: 4px; overflow: auto; white-space: nowrap; height: 350px; resize: vertical;
+		&.height-check {height: 1px;} //For prepping dynamic height in JS
+		.todofilewrap {margin-bottom: 10px;
+			&.todo-theme-parent {display: none;}
+
+			.todofilename {font-size: 12px; margin: 0;}
+			.themenote {display: none;}
+			.linewrap {
+				&.todo-category-nebula .todocategory {background: #0098d7}
+				.todocategory {background: #ccc; color: #fff; padding: 0 5px; text-align: center; border-radius: 10px; text-transform: uppercase; font-size: 8px;
+					i {color: #ccc;}
+				}
+				&.todo-priority-5 .todocategory {background: $danger_color !important;}
+				&.todo-priority-4 .todocategory {background: #e38a2c;}
+				&.todo-priority-3 .todocategory {background: #dda65c;}
+				&.todo-priority-2 .todocategory {background: #d3bd9f;}
+				&.todo-priority-1 .todocategory,
+				&.todo-priority- .todocategory {background: #ccc;}
+				&.todo-priority-0 {display: none;
+					.todocategory {background: $primary_color;}
+				}
+				.todoresult {font-size: 10px; margin: 0; padding: 0;}
+			}
+		}
+	}
+}
+
+//For both Dev Search and TODO Manager
+.linenumber {font-weight: 800; text-decoration: none;}
+.precon {display: none; resize: none;
+	pre.actualline {display: table; font-family: monospace; font-size: 10px; margin: 0; color: #666; background: #fff; padding: 2px 5px; border-radius: 5px; resize: none; transition: all 0.25s;}
+}
+
+//Design Reference metabox
+.design-reference-col {display: flex; margin-bottom: 15px; margin-right: 20px;
+	.color-block {display: flex; flex-direction: column; width: 50px; padding-top: 10px; padding-bottom: 4px; text-align: center; margin-right: 6px; text-decoration: none;
+		&.primary {background: $primary_color; color: high-contrast-color($primary_color);}
+		&.secondary {background: $secondary_color; color: high-contrast-color($secondary_color);}
+
+		span {font-size: 10px; line-height: 1;
+			&.tee {font-size: 24px; font-family: serif; padding-bottom: 10px; border-bottom: 1px dotted #fff;}
+		}
+	}
+
+	.color-contrast-ratio {display: inline-block; margin-top: 2px; padding: 1px 5px; font-size: 10px;
+		&.light {color: #fff;}
+		&.dark {color: #000;}
+	}
+}
+
+//Hubspot metabox
+.hubspot_contact {margin-bottom: 15px;
+	li {margin-bottom: 0;}
+}
+
+.nebula-admin-notice {
+	a {text-decoration: none;}
+}
+
+//Hide theme activated notices in favor of Nebula activation notices (only on the themes page)
+.themes-php {
+	#message2.updated.notice.is-dismissible.below-h2 {display: none;}
+	#setting-error-tgmpa {display: none !important;}
+}
+
+//Post/Page Listing Column Modifictions
+.widefat td, .widefat td ol, .widefat td p, .widefat td ul {font-size: 12px !important;}
+.fixed .column-categories, .fixed .column-rel, .fixed .column-response, .fixed .column-role, .fixed .column-tags {font-size: 10px; width: 10%;}
+.fixed .column-author, .fixed .column-date, .fixed .column-format, .fixed .column-links, .fixed .column-parent, .fixed .column-posts {width: 10%;}
+.fixed .column-comments {width: 3%;}
+.widefat .column-id {padding-left: 0 !important; padding-right: 0 !important; font-size: 10px !important;}
+.row-title, td.plugin-title strong, td.post-title strong, .row-actions, .plugin-version-author-uri, td.column-title strong, {font-size: 12px !important;}
+
+//Override plugin Dashboard metaboxes
+#updraft-dashnotice {display: none;} //Updraft
+
+//Wordpress SEO (Yoast)
+#wpseo-score .yst-traffic-light {height: 20px; padding-top: 4px;}
+.yoast-notice-go-premium {display: none;}
+
+.wpseo-admin-page #sidebar-container {display: none;}
+#wpseo-conf p.settings_error {display: none !important; visibility: hidden; height: 0; width: 0; opacity: 0; pointer-events: none;
+	a {display: none !important; visibility: hidden; height: 0; width: 0; opacity: 0; pointer-events: none;}
+}
+.widefat .column-wpseo-score {font-size: 10px !important; /* text-align: center; */ /* background: #fafafa; */}
+	.wpseo-score-icon {margin-left: 0; width: 10px !important; height: 10px;}
+.widefat .column-wpseo-title {width: 200px; font-size: 10px !important; background: #fafafa;}
+.widefat .column-wpseo-metadesc {width: 200px; font-size: 10px !important; background: #fafafa;}
+.widefat .column-wpseo-focuskw {width: 100px; font-size: 10px !important; background: #fafafa;}
+
+#dashboard_right_now a[href$="options-reading.php"] {color: $danger_color !important; font-weight: 700;
+	&::before {content: "!"; background: $danger_color; color: #fff; padding: 0 7px; margin-right: 5px;}
+}
+
+ul.admin-menu-tree-page-tree .admin-menu-tree-page-expand {width: 19px; height: 20px;}
+
+//Nebula TinyMCE Toolbar
+#wp-fullscreen-buttons .mce-btn.mce-nebula-icon,
+.mce-toolbar .mce-btn-group .mce-btn.mce-nebula-icon {
+	button {
+		i {background-position: 0 0; background-repeat: no-repeat;
+			&.mce-i-nebulaicon {background-image: url($template_directory + "/assets/img/admin/nebulaicon.png");}
+			&.mce-i-nebulamap {background-image: url($template_directory + "/assets/img/admin/nebulamap.png");}
+			&.mce-i-nebulacode {background-image: url($template_directory + "/assets/img/admin/nebulacode.png");}
+			&.mce-i-nebulacolgrid {background-image: url($template_directory + "/assets/img/admin/nebulacolgrid.png");}
+			&.mce-i-nebulavideo {background-image: url($template_directory + "/assets/img/admin/nebulavideo.png");}
+		}
+	}
+	&:focus button i,
+	&:hover button i {background-position: 0 -20px; background-repeat: no-repeat;}
+	&[aria-expanded="true"] {background: #ebebeb; border-color: #999; box-shadow: inset 0 2px 5px -3px rgb(0 0 0 / 30%);
+		i {background-position: 0 -20px; background-repeat: no-repeat;}
+	}
+}
+
+//#wp-fullscreen-buttons .mce-btn.mce-nebula-icon button i,
+//.mce-toolbar .mce-btn-group .mce-btn.mce-nebula-icon button i {}
+
+#menu-management #nav-menu-footer {position: relative;} //Don't make the bottom menu editing row sticky- too easy to accidentally click delete.
+
+#footer-upgrade strong.nebula {cursor: help;}
+
+#wpfooter a {text-decoration: none;}
+
+.nebula_admin_notice {
+	a {color: $primary_color; transition: all 0.25s;
+		&:hover {color: $secondary_color;}
+	}
+}
+
+.myhidden {display: none; visibility: hidden; opacity: 0;}
+.noheight {height: 0 !important; overflow: hidden; opacity: 0 !important;}
+
+//Nebula Options
+body.appearance_page_nebula_options {background-color: #f1f1f1;}
+.appearance_page_nebula_options #wpbody-content .metabox-holder {display: flex; flex-wrap: wrap; justify-content: space-between; padding-top: 0;
+	&.filtering {flex-direction: column;}
+}
+
+.nebula-options-widgets {width: 100%;
+	.postbox-container {margin: 0 8px; flex-grow: 1; flex-basis: 0; min-width: 0;
+		@include media("sm"){min-width: 500px;}
+
+		&:first-child {margin-left: 0;}
+		&:last-child {margin-right: 0;}
+	}
+}
+
+.filtering .postbox-container {margin: 0;}
+
+#all-nebula-options {padding: 10px 0 0;
+	.pane-title {font-size: 21px; margin-bottom: 25px;}
+	h3 {font-size: 18px; margin-bottom: 25px;}
+	h4 {font-size: 14px; margin-top: 35px; margin-bottom: 10px;}
+
+	#options-navigation {transition: opacity 0.25s; margin-bottom: 25px;
+		li {margin-bottom: 2px;}
+	}
+
+	#nebula-option-filter::-webkit-calendar-picker-indicator {opacity: 100;} //Make the input filter datalist dropdown arrow always visible
+
+	.sticky {position: sticky; top: 60px;}
+
+	.nav-pills {
+		.nav-link {font-size: 14px; color: $primary_color; transition: background-color 0.25s ease;
+			i, path {color: #23282d; fill: #23282d;}
+
+			&:focus,
+			&:hover {background-color: rgb($primary_color, 10%);}
+
+			&.active {background-color: $primary_color; color: readable-color($primary_color);
+				i, path {color: readable-color($primary_color); fill: readable-color($primary_color);}
+			}
+
+			i.empty-important-tab-warning {color: #d9534f !important; line-height: 24px; float: right;}
+		}
+	}
+
+	.option-group {margin-bottom: 40px;} //delete this line
+
+	.form-group,
+	.multi-form-group {margin-bottom: 15px; padding: 0; border: none; transition: all 0.25s ease;
+		.form-group {margin-bottom: 0;}
+		.form-text {font-size: 12px;}
+		.input-group-text {line-height: 1.4;} //Make Bootstrap match WordPress core
+	}
+
+	.input-group {transition: opacity 0.25s;}
+	.inactive {opacity: 0.4;
+		.nav-item,
+		input,
+		label {pointer-events: none;}
+	}
+
+	.form-group.active .input-group-text {background-color: $danger_color; color: readable-color($danger_color); font-weight: bold; cursor: help;}
+
+	//Lighten input placeholder text
+	input:-moz-placeholder,
+	textarea:-moz-placeholder {color: #ddd;}
+	input:-ms-input-placeholder,
+	textarea:-ms-input-placeholder {color: #ddd;}
+	input::-webkit-input-placeholder,
+	textarea::-webkit-input-placeholder {color: #ddd;}
+
+	.toggle-more-help {margin-left: 5px; color: #666; box-shadow: none;
+		&:hover {color: #0098d7;}
+	}
+
+	.nebula-help-text {margin: .25rem 0 0;
+		&.more-help {display: none; padding-top: 4px;
+			.dev-handle {padding-top: 3px;}
+		}
+	}
+
+	.direct-link {margin-left: 5px; color: #666;
+		&:hover {color: #0098d7;}
+	}
+
+	.important-empty label {color: #d9534f; font-weight: 800;}
+	.important-warning {font-weight: normal; margin: .25rem 0 0;}
+
+	.nebula-warning-category {color: #777; margin-right: 5px;}
+
+	.dependent-note {color: #d9534f; margin: .25rem 0 0; padding: 0; font-size: 12px;}
+
+	input[type=checkbox] {height: 0; width: 0; visibility: hidden; display: none;
+		+ label {display: flex; position: relative; align-items: center; cursor: pointer; text-indent: 50px; width: 38px; white-space: nowrap; padding: 4px 0; font-size: 1rem; line-height: 1; background: #ddd; border-radius: 1.25rem; margin: 0 15px 0 0; overflow: visible;
+			&::after {content: ""; position: absolute; left: 5px; width: 12px; height: 12px; background: #fff; border-radius: 50%; transition: 0.25s;
+				&::after {width: 1rem;}
+			}
+		}
+	}
+
+	input:checked + label {background: #5cb85c; color: forestgreen;
+		&::after {left: calc(100% - 5px); transform: translateX(-100%);}
+	}
+
+	.option-keywords {display: none;}
+
+	.hidden {display: none !important;} /* remove this */
+
+	#reset-filter {text-align: right; margin-top: .25rem;
+		a {transition: all 0.25s;}
+	}
+
+	.filtereditem {display: none !important;}
+
+	.save-row {margin-bottom: 35px;}
+
+	.highlight {padding: 10px 15px; background: #fcf8e3; border-left: 4px solid #eed659;
+		label {font-weight: 800;}
+		a.toggle-more-help {color: #5971ee;}
+	}
+}
+
+.notice-emphasize {
+	a {color: #fff; text-decoration: underline; text-underline-offset: 1px; text-decoration-style: dotted;
+		&:hover,
+		&:focus {color: #aaa;}
+	}
+
+	&.notice-error {background: $danger_color; border-color: $danger_color; color: #fff;}
+}
+
+//Nebula CF7 Submissions
+#adminmenu .toplevel_page_wpcf7.wp-not-current-submenu .wp-submenu {min-width: 225px;} //Widen admin submenu for badge count (when not on that page)
+
+.cf7-submits-today-color {color: $success_color;
+	.status-invalid & {color: $warning_color;}
+	.status-spam & {color: $danger_color;}
+}
+.cf7-submits-today-bg {background-color: $success_color !important;}
+
+#poststuff .nebula-form-title {padding: 15px 0 0 0; font-size: 28px;}
+
+.cf7-submits-possible-spam {opacity: 0.5;}
+
+.post-type-nebula_cf7_submits {
+	$submission_color: $success_color;
+	$caution_color: darken($info_color, 11%);
+	$failed_color: #9C12BB;
+	$invalid_color: darken($warning_color, 15%);
+	$spam_color: $danger_color;
+	$internal_color: #666;
+
+	.color-submission {color: $submission_color;}
+	.color-failed {color: $failed_color;}
+	.color-invalid {color: $invalid_color;}
+	.color-spam {color: $spam_color;}
+
+	table.wp-list-table {table-layout: auto;
+		tr.status-submission {
+			th {border-left: 4px solid rgba($submission_color, 0.5); }
+			&.caution-row th {border-left: 4px solid rgba($caution_color, 0.15);}
+			&.failed-row th {border-left: 4px solid rgba($failed_color, 0.5);}
+			&.invalid-row th {border-left: 4px solid rgba($invalid_color, 0.55);} //Invalid submissions moved to the submission status listing table
+		}
+		tr.status-invalid th {border-left: 4px solid rgba($invalid_color, 0.55);} //Invalid submissions on the invalid submissions listing table
+		tr.status-spam th {border-left: 4px solid rgba($spam_color, 0.25);}
+		tr.internal-row th {border-left: 4px solid rgba($internal_color, 0.2);}
+
+		.cf7-note-failed i,
+		.cf7-note-failed strong {color: $failed_color;}
+
+		td.title {max-width: 250px;}
+		td.formatted_date .just-now,
+		td.formatted_date .today {font-weight: bold;}
+		td.attribution,
+		td.notes {max-width: 200px;}
+	}
+
+	#post-body-content {
+		#titlediv::before {content: "🔒"; position: absolute; top: 0; left: 8px; height: 95%; display: inline-flex; align-items: center; font-size: 1.2em; opacity: 0.5;}
+		#title {padding-left: 35px;}
+
+		.nebula-cf7-notice {background: #fff; border: 1px solid #c3c4c7; border-left-width: 4px; box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04); margin-top: 19px; padding: 1px 12px;
+			&.notice-success {border-left-color: $submission_color;}
+			&.notice-info,
+			&.notice-caution {border-left-color: $caution_color;}
+			&.notice-mail-failed {border-left-color: $failed_color;}
+			&.notice-warning,
+			&.notice-invalid {border-left-color: $invalid_color;}
+			&.notice-error,
+			&.notice-spam {border-left-color: $spam_color;}
+			&.notice-internal {border-left-color: $internal_color;}
+		}
+
+		.nebula-cf7-notice {
+			ol {margin-left: 20px;
+				.invalid-submission-item i {color: $invalid_color;}
+				.successful-submission-item i {color: $submission_color;}
+				.this-submission {font-weight: bold; font-size: 1.1em;
+					&::marker {font-weight: bold;}
+					a {text-decoration: none;}
+				}
+			}
+		}
+	}
+}
+
+table.nebula-cf7-submissions {border-collapse: collapse; width: 100%; margin-top: 22px; border: 1px solid #444;
+	thead {font-weight: bold; background: $success_color; color: readable-color($success_color);
+		td {padding: 15px;}
+	}
+
+	&#nebula-cf7-submission-metadata {margin-top: 50px;
+		thead {background: grey;}
+	}
+
+	&.nebula-cf7-submission-spam {
+		thead {background: $danger_color; color: readable-color($danger_color);}
+	}
+
+	&.nebula-cf7-submission-invalid {
+		thead {background: $warning_color; color: readable-color($warning_color);}
+	}
+
+	&.nebula-cf7-submission-caution {
+		thead {background: darken($info_color, 11%); color: readable-color(darken($info_color, 11%));}
+	}
+
+	tbody {
+		tr {transition: background 0.25s ease;
+			&:nth-child(even) {background: #e3e3e3;}
+			&:hover {@include background-color($primary_color, 0.2);}
+
+			td {padding: 5px 10px; border: 1px solid #999; overflow: hidden; text-overflow: ellipsis; word-break: break-word;
+				&:nth-child(1){width: 210px;}
+			}
+
+			&.no-data td {opacity: 0.4;}
+			&.invalid-field {background: $danger_color; color: readable-color($danger_color);}
+			&.mail-failed {background: $danger_color; color: readable-color($danger_color);}
+		}
+	}
+}
+
+//Nebula Logs Table
+#nebula_logs_metabox {
+	.inside {max-height: 500px; overflow: auto;}
+
+	#nebula-add-log {margin-bottom: 10px; text-align: center;
+		input[type="text"] {min-width: 250px;}
+		input[type="number"] {min-width: 50px;}
+	}
+
+	table#nebula-logs {width: 100%; border: 1px solid #ccd0d4;
+		thead {font-weight: bold; background: $primary_color; color: readable-color($primary_color);
+			td.timestamp::after {content: "\f140"; font: normal 20px/1 "dashicons"; vertical-align: bottom;}
+		}
+
+		.remove {display: inline-block; color: $danger_color; max-width: 0; vertical-align: middle; overflow: hidden; transition: max-width 0.25s ease;} //Icon
+
+		tbody {
+			tr {transition: background 0.25s ease;
+				&:nth-child(even) {background: #f2f2f2;}
+
+				//Eventually when CSS can do > and < re-write this
+				&[data-importance="0"],
+				&[data-importance="1"],
+				&[data-importance="2"] {color: #666;}
+				&[data-importance="3"],
+				&[data-importance="4"],
+				&[data-importance="5"],
+				&[data-importance="6"] {}
+				&[data-importance="7"],
+				&[data-importance="8"],
+				&[data-importance="9"] {font-weight: bold;}
+				&[data-importance="10"] {color: $danger_color; font-weight: bold;}
+
+				&:hover,
+				&.prompted {cursor: pointer; background: rgb($danger_color, 20%);
+					.remove {max-width: 15px;} //Icon
+				}
+			}
+		}
+
+		td {vertical-align: baseline; padding: 6px 10px; font-size: 12px;
+			&.id,
+			&.importance {display: none;}
+		}
+	}
+
+	#nebula-clean-logs {margin-top: 10px; text-align: center;
+		a#clean-log-messages {color: $danger_color; transition: all 0.25s ease;
+			&:hover {color: darken($danger_color, 20%);}
+		}
+	}
+}
+
+.nebula-enabled {color: $success_color;}
+.nebula-disabled {color: $danger_color;}
+
+#nebula_troubleshooting_metabox ul {list-style: disc; padding-left: 20px;}
+
+#customize-controls {
+	.nebula-help-text {display: block; font-size: 11px; padding-top: 4px; color: #888;}
+}

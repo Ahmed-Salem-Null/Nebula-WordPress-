@@ -1,0 +1,27 @@
+@import "variables";
+@import "functions";
+@import "mixins";
+
+.wp-core-ui .button-primary {box-shadow: 0 1px 0 $primary_color; text-shadow: 0 -1px 1px $primary_color, 1px 0 1px $primary_color, 0 1px 1px $primary_color, -1px 0 1px $primary_color;}
+
+a {color: $primary_color !important; transition: all 0.25s; text-decoration: none;
+	&:hover {color: $secondary_color !important; text-decoration: underline;}
+}
+
+body.login {@include linear-gradient(to bottom, #f2f2f2, #ddd);
+	form {margin: 0 auto;}
+	div#login {
+		form#loginform {
+			p.submit {
+				input.button-primary {@include linear-gradient(to bottom, $primary_color, darken($primary_color, 20%)); border: 1px solid darken($primary_color, 40%);
+					&:hover {@include linear-gradient(to bottom, darken($primary_color, 20%), darken($primary_color, 40%)); border: 1px solid darken($primary_color, 60%);}
+				}
+			}
+		}
+		p#nav, p#backtoblog {
+			a {color: $primary_color !important; transition: all 0.25s; text-decoration: none;
+				&:hover {color: $primary_color !important; text-decoration: underline;}
+			}
+		}
+	}
+}

@@ -1,0 +1,44 @@
+// ===========================
+// Custom Baseline Styles
+// ===========================
+
+:root {
+	interpolate-size: allow-keywords; //Allow animation to/from intrinsic sizes like "auto"
+	accent-color: $primary_color; //Set HTML form fields to use the brand color for accents
+}
+
+@view-transition {navigation: auto;} //Multi-Page View Transitions
+
+html {height: auto; font-size: 16px; overflow-x: hidden; scroll-behavior: smooth;} //Declare font-size in px here only. Use rem or rem() Sass function everywhere else.
+body {overflow-x: hidden; background: $background_color; padding: env(safe-area-inset); -webkit-font-smoothing: antialiased;} //@todo "Nebula" 0: Overflow hidden breaks position sticky... Without it, horizontal scroll happens...
+
+//::selection {background: lighten($primary_color, 50%); background: rgba(lighten($primary_color, 15%), 0.3);} //Note: Deactivated due to slow performance when recalculating styles (~2.3ms).
+
+img,
+svg {vertical-align: middle; max-width: 100%; height: auto;
+	path {transition: fill 0.25s;}
+}
+
+ul {list-style-position: inside;
+	ul {margin: 4px 0 0;}
+	&.menu {padding: 0;}
+}
+
+code {font-family: monospace; background: #f6f6f6; border: 1px solid #ccc; padding: .2rem .4rem; border-radius: .25rem; color: #222;}
+
+.chromeframe {margin: 0.2em 0; background: #ccc; color: #000; padding: 0.2em 0;}
+
+a {text-decoration: none;}
+:where(a:not(.btn):not(.wp-block-button__link)){@include link-colors($primary_color, $secondary_color, darken($primary_color, 15%)); transition: all 0.25s; //:where() allows any later selectors to easily override it
+	&:hover,
+	&:focus,
+	&:active {text-decoration: none;}
+
+	//Differentiate text links within articles with an underline for accessibility
+	#content-section article p &,
+	#content-section article li & {text-decoration: underline; text-decoration-style: dotted;}
+}
+
+.screen-reader-text {clip: rect(1px, 1px, 1px, 1px); position: absolute !important; height: 1px; width: 1px; overflow: hidden;}
+
+.nebula-lazy-position {display: block;} //IntersectionObserver only works with Nebula lazy loading when the <samp> positioning element is displayed block

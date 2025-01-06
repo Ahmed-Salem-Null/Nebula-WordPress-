@@ -1,0 +1,139 @@
+// ===========================
+// Third-party vendor library customizations
+// This includes OS-specific modifications
+// ===========================
+
+abbr, acronym {cursor: pointer; border-bottom: none; color: inherit;}
+
+.pinterest-pin a {transition: none 0.25s;}
+#___plusone_0 {width: 60px !important;}
+
+html .btn {max-width: 100%; white-space: normal;}
+.modal-xl {@include media("xl"){width: 90%; max-width: 1200px;}} //Allows for bigger modal
+.modal-backdrop.show {opacity: 0.8;} //Darker modal backdrop
+.form-check-input {margin-top: 0.35rem;}
+
+svg.svg-inline--fa {max-width: none;} //Remove max-width: 100% for Font Awesome SVG icons
+
+.wpcf7-form,
+.nebula-login-form {
+	label {display: block; margin-bottom: 0; font-size: rem(14px);}
+	.wpcf7-not-valid-tip {font-size: rem(14px);}
+}
+.wpcf7-form {
+	br {display: none;}
+	.form-check {padding-left: 0; margin-bottom: 1rem;
+		.wpcf7-acceptance {display: block;}
+		.wpcf7-list-item {display: block; margin-left: 0;
+			&:first-of-type {margin-left: 0;} //This is in case horizontal layout is preferred (override display: block above)
+		}
+	}
+}
+
+//Essential CF7 styles
+span.wpcf7-list-item {display: inline-block; margin: 0 0 0 1em;
+	&.first {margin: 0;}
+}
+span.wpcf7-list-item-label {font-size: rem(14px);
+	&::before,
+	&::after {content: " ";}
+}
+.debuginfo {display: none; opacity: 0; height: 0; visibility: hidden; padding: 0; margin: 0; font-size: 0; line-height: 0; @include background-color(#fff); color: rgb(255 255 255 / 0%); pointer-events: none;} //Is this still needed?
+
+//Nice animated spinner when submit is active
+.wpcf7-form button#submit {display: inline-block; position: relative; overflow: hidden; transition: all 0.25s ease, padding 0.4s easing(easeOutBack);
+	&::before {content: "\f110"; @include font-awesome("solid"); position: absolute; top: 0; left: -25px; height: 100%; display: -ms-inline-flexbox; display: inline-flex; -ms-flex-align: center; align-items: center; transition: left 0.4s easing(easeOutBack); animation: nebula-spin 2s infinite linear;}
+
+	&.active {padding-left: 35px;
+	    &::before, svg {left: 10px;}
+	}
+}
+
+.wpcf7 .screen-reader-response {display: none; font-size: rem(14px);}
+
+.wpcf7-not-valid-tip {color: $danger_color;}
+
+.wpcf7-response-output {position: relative; width: 100%; margin: 0; border-radius: 4px; font-size: rem(14px); text-align: center; padding: 0; transition: all 0.5s ease;
+	&::before {content: ""; @include font-awesome("solid"); font-size: rem(36px); display: block; width: 100%; margin-bottom: 15px; text-align: center;}
+
+	.unaccepted &,
+	.invalid &,
+	.aborted &,
+	.failed & {color: readable-color($danger_color); background: $danger_color; border: 1px solid $danger_color; padding: 25px 10px 15px;
+		&::before {content: "\f057";}
+		svg {display: block;}
+	}
+
+	.spam & {color: readable-color($danger_color); background: $danger_color; border: 1px solid $danger_color; padding: 25px 10px 15px;
+		&::before {content: "\f05e";}
+		svg {display: block;}
+	}
+
+	.sent & {color: readable-color($success_color); background: $success_color; border: 1px solid $success_color; padding: 25px 10px 15px;
+		&::before {content: "\f00c";}
+		svg {display: block;}
+	}
+}
+
+.nebula-empty-required {border: 1px solid $danger_color !important;}
+.wpcf7-checkbox {display: inline-block; padding: 4px; border: 1px solid transparent; border-radius: 3px; transition: all 0.25s ease;}
+
+.wpcf7 ul {padding: 0; max-height: 2000px; list-style: none; overflow: hidden; transition: all 0.75s;}
+	.wpcf7-form.sent ul {max-height: 0;}
+
+//wp-pagenavi Pagination
+div.wp-pagenavi {text-align: right; margin-bottom: 20px;
+	span,
+	a {display: inline-block; padding: 0 10px;}
+
+	a {
+		&:hover,
+		&:focus {background: $primary_color; color: #fff; border: 1px solid $primary_color;}
+	}
+}
+
+//WP Core Pagination
+div.wp-pagination {text-align: right; margin-bottom: 20px;
+	.page-numbers {display: inline-block; padding: 0 10px; border: 1px solid #bfbfbf;
+		//&.prev {}
+		//&.next {}
+	}
+
+	a:hover,
+	a:focus {background: $primary_color; color: #fff; border: 1px solid $primary_color;}
+
+	span.page-numbers.current {font-weight: 800; border-color: #000;}
+}
+
+//Misc. WP Core styles
+.gallery-caption {font-size: rem(12px);}
+
+//Comments
+li.comment div.comment-meta {display: block;}
+//#nebulacommentswrapper {}
+	#disqus_thread {margin-top: 20px;}
+
+//Google Maps
+.googlemapcon {width: 100%; height: 350px;
+	a,
+	i {transition: all 0.25s;}
+}
+	#map_canvas {width: 100%; height: 100%;}
+
+	.mapgeolocation-icon.error {color: $danger_color;}
+
+	.maprefresh {overflow: hidden; white-space: nowrap;
+		&.timeout {color: #aaa; cursor: default;}
+	}
+	.maprefresh-icon.success {color: $success_color;}
+	.mapweather-icon.inactive,
+	.maptraffic-icon.inactive,
+	.maprefresh-icon.inactive,
+	.mapgeolocation-icon.inactive {opacity: 0.4;}
+
+	#googlemap img {max-width: none;} //Prevents glitchy UI within embedded Google maps
+
+.facebook-connect-con {font-size: rem(12px);
+	i,
+	a {@include link-colors(brand(facebook), darken(brand(facebook), 15%)); color: brand(facebook);}
+}
