@@ -1,0 +1,30 @@
+/*!
+	Theme Name: Nebula Child
+	Theme URI: https://nebula.gearside.com
+	Description: Nebula child theme
+	Author: Nebula
+	Template: Nebula-main
+	Version: 1.0.0
+	License: GNU General Public License v2 or later
+	License URI: http://www.gnu.org/licenses/gpl-2.0.html
+	Tags: one-column, two-columns, three-columns, four-columns, left-sidebar, right-sidebar, threaded-comments, theme-options, sticky-post, post-formats, microformats, full-width-template, front-page-post-form, flexible-header, featured-images, featured-image-header, editor-style, custom-menu, custom-colors, accessibility-ready
+	Text Domain: nebula-child
+*/
+
+//Import Nebula partials
+@import $parent_partials_directory + "/variables";
+@import "variables"; //Child theme variables
+@import $parent_partials_directory + "/functions";
+@import $parent_partials_directory + "/mixins";
+//@import $parent_partials_directory + "/helpers";
+@import $parent_partials_directory + "/animations";
+@import "../critical"; //Child theme critical styles
+
+//Import child theme partials
+@import "utilities";
+@import "typography";
+@import "header";
+@import "sidebar";
+@import "footer";
+
+@view-transition {navigation: auto;} //Multi-Page View Transitions
