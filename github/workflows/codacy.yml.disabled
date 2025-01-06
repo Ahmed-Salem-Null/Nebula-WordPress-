@@ -1,0 +1,17 @@
+# Disabled until it can only scan for "new" issues (rather than counting the tens of thousands of existing "errors")
+
+name: "Codacy"
+
+on: ["push", "pull_request"]
+
+jobs:
+  codacy-analysis-cli:
+    runs-on: ubuntu-latest
+    name: Codacy Analysis CLI
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@master
+      - name: Run codacy-analysis-cli
+        uses: codacy/codacy-analysis-cli-action@master
+        with:
+          project-token: ${{ secrets.CODACY_API }}
